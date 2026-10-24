@@ -2,7 +2,7 @@
 
 This repository contains the supplementary material for a study that compares a browser-based reinforcement learning (RL) teaching platform ("Rein Room", RR) with a code-based Gymnasium + Google Colab workflow in a two-group classroom experiment.
 
-All names, institutional details, student identifiers and platform URLs have been removed or replaced for anonymous review. Student IDs in the response data are replaced by pseudonyms (`P01`, `P02`, ...; `TEST01` is a test account excluded from analysis).
+All names, institutional details, student identifiers and platform URLs have been removed or replaced for anonymous review. Student IDs in the response data are replaced by pseudonyms (`P01`, `P02`, ...; `TEST01` is a test account excluded from analysis). A few free-text answers that were originally written in Chinese were translated into English; the Google-Form timestamps are given in ISO format.
 
 ## Contents
 
