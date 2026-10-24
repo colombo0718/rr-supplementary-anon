@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-nasa_tlx_breakdown.py — NASA-TLX 6 項分量表 t-test
+nasa_tlx_breakdown.py — NASA-TLX six-subscale t-test
 
-從後測 CSV 讀 NASA-TLX 6 題（Section 4: 4-1~4-6），對 RR vs Colab 做獨立樣本 t-test。
+Read the six NASA-TLX items (Section 4: 4-1 to 4-6) from the post-test CSVs and run independent-samples t-tests, RR vs Colab.
 
-NASA-TLX 6 項：
-1. Mental Demand 心智需求
-2. Physical Demand 體力需求
-3. Temporal Demand 時間壓力
-4. Performance 表現自評（反向）
-5. Effort 努力
-6. Frustration 挫折感
+The six NASA-TLX subscales:
+1. Mental Demand
+2. Physical Demand
+3. Temporal Demand
+4. Performance (self-rated, reverse-scored)
+5. Effort
+6. Frustration
 """
 
 import csv
@@ -23,11 +23,11 @@ DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_ID = "TEST01"
 STRAIGHTLINERS_A = {"P10", "P14"}
 
-DIMS = ["心智需求", "體力需求", "時間壓力", "表現自評", "努力", "挫折感"]
+DIMS = ["Mental demand", "Physical demand", "Temporal demand", "Performance", "Effort", "Frustration"]
 
 
 def load_nasa(filename, straightliners=None):
-    """回傳 list of (sid, [6 項分數], is_straightline)"""
+    """Return a list of (sid, [6 scores], is_straightline)"""
     rows = []
     with open(os.path.join(DATA_DIR, filename), encoding="utf-8-sig") as f:
         for row in csv.DictReader(f):
@@ -43,13 +43,13 @@ def load_nasa(filename, straightliners=None):
 
 
 def main():
-    a = load_nasa("RL Lab — Post-Test (Group A) (回覆) - 表單回覆 1.csv", STRAIGHTLINERS_A)
-    b = load_nasa("RL Lab — Post-Test (Group B) (回覆) - 表單回覆 1.csv")
+    a = load_nasa("RL_Lab_PostTest_GroupA.csv", STRAIGHTLINERS_A)
+    b = load_nasa("RL_Lab_PostTest_GroupB.csv")
 
-    print(f"RR (A) n = {len(a)}, 排除直線式後 n = {sum(1 for r in a if not r[2])}")
+    print(f"RR (A) n = {len(a)}, n after excluding straight-liners = {sum(1 for r in a if not r[2])}")
     print(f"Colab (B) n = {len(b)}\n")
 
-    # 整體平均
+    # Overall mean
     a_overall_all = [np.mean(r[1]) for r in a]
     a_overall_clean = [np.mean(r[1]) for r in a if not r[2]]
     b_overall = [np.mean(r[1]) for r in b]
@@ -57,15 +57,15 @@ def main():
     t_all, p_all = stats.ttest_ind(a_overall_all, b_overall, equal_var=False)
     t_clean, p_clean = stats.ttest_ind(a_overall_clean, b_overall, equal_var=False)
 
-    print(f"整體平均  RR(全部, n={len(a_overall_all)})  M={np.mean(a_overall_all):.2f} SD={np.std(a_overall_all, ddof=1):.2f}")
-    print(f"整體平均  RR(排除直線, n={len(a_overall_clean)})  M={np.mean(a_overall_clean):.2f} SD={np.std(a_overall_clean, ddof=1):.2f}")
-    print(f"整體平均  Colab(n={len(b_overall)})  M={np.mean(b_overall):.2f} SD={np.std(b_overall, ddof=1):.2f}")
-    print(f"  t(全部 vs Colab) = {t_all:+.3f}, p = {p_all:.3f}")
-    print(f"  t(排除直線 vs Colab) = {t_clean:+.3f}, p = {p_clean:.3f}\n")
+    print(f"Overall mean  RR(all, n={len(a_overall_all)})  M={np.mean(a_overall_all):.2f} SD={np.std(a_overall_all, ddof=1):.2f}")
+    print(f"Overall mean  RR(excl. straight-liners, n={len(a_overall_clean)})  M={np.mean(a_overall_clean):.2f} SD={np.std(a_overall_clean, ddof=1):.2f}")
+    print(f"Overall mean  Colab(n={len(b_overall)})  M={np.mean(b_overall):.2f} SD={np.std(b_overall, ddof=1):.2f}")
+    print(f"  t(all vs Colab) = {t_all:+.3f}, p = {p_all:.3f}")
+    print(f"  t(excl. straight-liners vs Colab) = {t_clean:+.3f}, p = {p_clean:.3f}\n")
 
-    # 6 項分項
+    # Six subscales
     print("=" * 90)
-    print(f"{'分項':<12}{'RR M(SD)':<18}{'RR排除 M(SD)':<18}{'Colab M(SD)':<18}{'t (全部)':<12}{'p':<10}{'sig'}")
+    print(f"{'Subscale':<12}{'RR M(SD)':<18}{'RR excl. M(SD)':<18}{'Colab M(SD)':<18}{'t (all)':<12}{'p':<10}{'sig'}")
     print("=" * 90)
 
     rows_md = []
@@ -85,11 +85,11 @@ def main():
 
         rows_md.append((dim, a_m, a_sd, a_cm, a_csd, b_m, b_sd, t, p, sig))
 
-    # Markdown 表
-    print("\n\n## Markdown 合併表（整體 + 6 項分項）\n")
-    print("| 構面 | RR 全部 (n=18) M (SD) | RR 排除直線 (n=16) M (SD) | Colab (n=12) M (SD) | t（全部 vs Colab）| p | 顯著性 |")
+    # Markdown table
+    print("\n\n## Combined Markdown table (overall + six subscales)\n")
+    print("| Dimension | RR all (n=18) M (SD) | RR excl. straight-liners (n=16) M (SD) | Colab (n=12) M (SD) | t (all vs Colab) | p | Significance |")
     print("|------|--------------------|---------------------------|---------------------|------|---|--------|")
-    print(f"| **整體平均** | {np.mean(a_overall_all):.2f} ({np.std(a_overall_all, ddof=1):.2f}) | {np.mean(a_overall_clean):.2f} ({np.std(a_overall_clean, ddof=1):.2f}) | {np.mean(b_overall):.2f} ({np.std(b_overall, ddof=1):.2f}) | {t_all:+.3f} | {p_all:.3f} | {'\\*'*(1 if p_all<.05 else 0) if p_all<.05 else 'n.s.'} |")
+    print(f"| **Overall mean** | {np.mean(a_overall_all):.2f} ({np.std(a_overall_all, ddof=1):.2f}) | {np.mean(a_overall_clean):.2f} ({np.std(a_overall_clean, ddof=1):.2f}) | {np.mean(b_overall):.2f} ({np.std(b_overall, ddof=1):.2f}) | {t_all:+.3f} | {p_all:.3f} | {'\\*'*(1 if p_all<.05 else 0) if p_all<.05 else 'n.s.'} |")
     for row in rows_md:
         dim, a_m, a_sd, a_cm, a_csd, b_m, b_sd, t, p, sig = row
         sig_md = '\\*\\*\\*' if p < .001 else '\\*\\*' if p < .01 else '\\*' if p < .05 else 'n.s.'

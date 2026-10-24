@@ -1,7 +1,7 @@
 """
-verify_data.py — 驗證 data.js 與 CSV 原始數據的一致性
+verify_data.py - verify that data.js is consistent with the raw CSV data
 
-執行：
+Usage:
     cd <repo root>
     python figures/verify_data.py
 """
@@ -13,7 +13,7 @@ from statistics import mean, stdev
 import math
 
 ROOT = Path(__file__).parent.parent
-DATA_DIR = ROOT / "C.數據收集"
+DATA_DIR = ROOT / "C.data_collection"
 
 TEST_ID = "TEST01"
 STRAIGHTLINERS = {"P10", "P14"}
@@ -28,55 +28,55 @@ def normalize_id(s):
 
 
 print("=" * 70)
-print("論文數據驗證報告")
+print("Paper data verification report")
 print("=" * 70)
 
-# 1. 檢查樣本人數
-print("\n【樣本人數驗證】")
-with io.open(DATA_DIR / "RL Lab — Pre-Test (Group A) (回覆) - 表單回覆 1.csv", "r", encoding="utf-8-sig") as f:
+# 1. Check sample sizes
+print("\n[Sample size check]")
+with io.open(DATA_DIR / "RL_Lab_PreTest_GroupA.csv", "r", encoding="utf-8-sig") as f:
     pre_a = list(csv.DictReader(f))
     pre_a_valid = [r for r in pre_a if r["Student ID"].strip().upper() != TEST_ID]
-    print(f"✓ 實驗組前測：{len(pre_a_valid)} 人（原始 {len(pre_a)} 人，排除 1 個測試帳號）")
+    print(f"[ok] Experimental group pre-test: {len(pre_a_valid)} (raw {len(pre_a)}, excluding 1 test account)")
 
-with io.open(DATA_DIR / "RL Lab — Post-Test (Group A) (回覆) - 表單回覆 1.csv", "r", encoding="utf-8-sig") as f:
+with io.open(DATA_DIR / "RL_Lab_PostTest_GroupA.csv", "r", encoding="utf-8-sig") as f:
     post_a = list(csv.DictReader(f))
     post_a_valid = [r for r in post_a if r["Student ID"].strip().upper() != TEST_ID]
-    print(f"✓ 實驗組後測：{len(post_a_valid)} 人")
+    print(f"[ok] Experimental group post-test: {len(post_a_valid)}")
 
-with io.open(DATA_DIR / "RL Lab — Pre-Test (Group B) (回覆) - 表單回覆 1.csv", "r", encoding="utf-8-sig") as f:
+with io.open(DATA_DIR / "RL_Lab_PreTest_GroupB.csv", "r", encoding="utf-8-sig") as f:
     pre_b = list(csv.DictReader(f))
     pre_b_valid = [r for r in pre_b if r["Student ID"].strip().upper() != TEST_ID]
-    print(f"✓ 對照組前測：{len(pre_b_valid)} 人")
+    print(f"[ok] Control group pre-test: {len(pre_b_valid)}")
 
-with io.open(DATA_DIR / "RL Lab — Post-Test (Group B) (回覆) - 表單回覆 1.csv", "r", encoding="utf-8-sig") as f:
+with io.open(DATA_DIR / "RL_Lab_PostTest_GroupB.csv", "r", encoding="utf-8-sig") as f:
     post_b = list(csv.DictReader(f))
     post_b_valid = [r for r in post_b if r["Student ID"].strip().upper() != TEST_ID]
-    print(f"✓ 對照組後測：{len(post_b_valid)} 人")
+    print(f"[ok] Control group post-test: {len(post_b_valid)}")
 
-# 2. 檢查概念測驗分數統計
-print("\n【概念測驗分數驗證】")
-pre_a_scores = [parse_score(r["分數"]) for r in pre_a_valid]
-post_a_scores = [parse_score(r["分數"]) for r in post_a_valid]
-pre_b_scores = [parse_score(r["分數"]) for r in pre_b_valid]
-post_b_scores = [parse_score(r["分數"]) for r in post_b_valid]
+# 2. Check concept-test score statistics
+print("\n[Concept-test score check]")
+pre_a_scores = [parse_score(r["Score"]) for r in pre_a_valid]
+post_a_scores = [parse_score(r["Score"]) for r in post_a_valid]
+pre_b_scores = [parse_score(r["Score"]) for r in pre_b_valid]
+post_b_scores = [parse_score(r["Score"]) for r in post_b_valid]
 
-print(f"實驗組前測：M={mean(pre_a_scores):.2f}, SD={stdev(pre_a_scores):.2f}, n={len(pre_a_scores)}")
-print(f"實驗組後測：M={mean(post_a_scores):.2f}, n={len(post_a_scores)}")
-print(f"對照組前測：M={mean(pre_b_scores):.2f}, SD={stdev(pre_b_scores):.2f}, n={len(pre_b_scores)}")
-print(f"對照組後測：M={mean(post_b_scores):.2f}, n={len(post_b_scores)}")
+print(f"Experimental pre-test: M={mean(pre_a_scores):.2f}, SD={stdev(pre_a_scores):.2f}, n={len(pre_a_scores)}")
+print(f"Experimental post-test: M={mean(post_a_scores):.2f}, n={len(post_a_scores)}")
+print(f"Control pre-test: M={mean(pre_b_scores):.2f}, SD={stdev(pre_b_scores):.2f}, n={len(pre_b_scores)}")
+print(f"Control post-test: M={mean(post_b_scores):.2f}, n={len(post_b_scores)}")
 
-# 3. 讀取任務完成率
-print("\n【任務完成率驗證】")
-with io.open(DATA_DIR / "任務完成記錄表_A組.md", "r", encoding="utf-8") as f:
+# 3. Read task completion records
+print("\n[Task completion check]")
+with io.open(DATA_DIR / "task_completion_record_group_A.md", "r", encoding="utf-8") as f:
     content_a = f.read()
-    print(f"✓ 實驗組任務表已讀取（{len(content_a)} 字）")
+    print(f"[ok] Experimental group task sheet read ({len(content_a)} chars)")
 
-with io.open(DATA_DIR / "任務完成記錄表_B組.md", "r", encoding="utf-8") as f:
+with io.open(DATA_DIR / "task_completion_record_group_B.md", "r", encoding="utf-8") as f:
     content_b = f.read()
-    print(f"✓ 對照組任務表已讀取（{len(content_b)} 字）")
+    print(f"[ok] Control group task sheet read ({len(content_b)} chars)")
 
-# 4. 檢查 Section 3 平台回饋計算
-print("\n【Section 3 平台回饋驗證】")
+# 4. Check Section 3 platform-feedback computation
+print("\n[Section 3 platform feedback check]")
 
 
 def get_section_keys(row, prefix):
@@ -96,22 +96,22 @@ for row in post_b_valid:
 
 if sec3_a:
     sec3_a_means = [mean([s[i] for s in sec3_a]) for i in range(5)]
-    print(f"實驗組 3-1 介面易用：{sec3_a_means[0]:.4f}")
-    print(f"實驗組 3-2 參數信心：{sec3_a_means[1]:.4f}")
-    print(f"實驗組 3-3 視覺化幫助：{sec3_a_means[2]:.4f}")
-    print(f"實驗組 3-4 學習動機：{sec3_a_means[3]:.4f}  ← checklist 要求 4.17")
-    print(f"實驗組 3-5 推薦意願：{sec3_a_means[4]:.4f}")
+    print(f"Experimental 3-1 Interface ease of use: {sec3_a_means[0]:.4f}")
+    print(f"Experimental 3-2 Parameter confidence: {sec3_a_means[1]:.4f}")
+    print(f"Experimental 3-3 Visualization helpfulness: {sec3_a_means[2]:.4f}")
+    print(f"Experimental 3-4 Learning motivation: {sec3_a_means[3]:.4f}  <- checklist expects 4.17")
+    print(f"Experimental 3-5 Willingness to recommend: {sec3_a_means[4]:.4f}")
 
 if sec3_b:
     sec3_b_means = [mean([s[i] for s in sec3_b]) for i in range(5)]
-    print(f"\n對照組 3-1 介面易用：{sec3_b_means[0]:.4f}")
-    print(f"對照組 3-2 參數信心：{sec3_b_means[1]:.4f}")
-    print(f"對照組 3-3 視覺化幫助：{sec3_b_means[2]:.4f}")
-    print(f"對照組 3-4 學習動機：{sec3_b_means[3]:.4f}  ← checklist 要求 3.33")
-    print(f"對照組 3-5 推薦意願：{sec3_b_means[4]:.4f}")
+    print(f"\nControl 3-1 Interface ease of use: {sec3_b_means[0]:.4f}")
+    print(f"Control 3-2 Parameter confidence: {sec3_b_means[1]:.4f}")
+    print(f"Control 3-3 Visualization helpfulness: {sec3_b_means[2]:.4f}")
+    print(f"Control 3-4 Learning motivation: {sec3_b_means[3]:.4f}  <- checklist expects 3.33")
+    print(f"Control 3-5 Willingness to recommend: {sec3_b_means[4]:.4f}")
 
-# 5. 檢查 SUS 計算
-print("\n【SUS 易用性驗證】")
+# 5. Check SUS computation
+print("\n[SUS usability check]")
 
 
 def calc_sus(items):
@@ -135,14 +135,14 @@ for row in post_b_valid:
         sus_raw = [int(row[k]) for k in sus_keys]
         sus_b.append(calc_sus(sus_raw))
 
-print(f"實驗組 SUS：M={mean(sus_a):.2f}, SD={stdev(sus_a):.2f}, n={len(sus_a)}")
-print(f"對照組 SUS：M={mean(sus_b):.2f}, SD={stdev(sus_b):.2f}, n={len(sus_b)}")
+print(f"Experimental SUS: M={mean(sus_a):.2f}, SD={stdev(sus_a):.2f}, n={len(sus_a)}")
+print(f"Control SUS: M={mean(sus_b):.2f}, SD={stdev(sus_b):.2f}, n={len(sus_b)}")
 
-# 排除直線式作答後
+# After excluding straight-line responders
 sus_a_clean = [v for i, v in enumerate(sus_a)
                if list(post_a_valid)[i]["Student ID"].strip().upper() not in {s.upper() for s in STRAIGHTLINERS}]
-print(f"實驗組 SUS（排除直線式）：M={mean(sus_a_clean):.2f}, SD={stdev(sus_a_clean):.2f}, n={len(sus_a_clean)}")
+print(f"Experimental SUS (excl. straight-liners): M={mean(sus_a_clean):.2f}, SD={stdev(sus_a_clean):.2f}, n={len(sus_a_clean)}")
 
 print("\n" + "=" * 70)
-print("✅ 驗證完成。請檢查上述數值是否與 figures/data.js 與論文一致。")
+print("[DONE] Verification complete. Check that the values above agree with figures/data.js and the paper.")
 print("=" * 70)

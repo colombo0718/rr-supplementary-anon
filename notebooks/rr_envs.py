@@ -334,7 +334,7 @@ class MABEnv(gym.Env):
         done = self.step_count >= self.episode_step_limit
         return np.array([self.selected], dtype=np.float32), reward, done, False, {}
     def render(self):
-        """Render MAB like RR MAB.html: 編號 / 獎勵池 / 選擇 / 獎勵."""
+        """Render MAB like RR MAB.html: Index / Reward pool / Choice / Reward."""
         fig, ax = _blank_axes(figsize=(9.4, 4.6), xlim=(0, 10), ylim=(0, 6.4))
         fig.patch.set_facecolor("white")
         ax.set_facecolor("white")
@@ -343,7 +343,7 @@ class MABEnv(gym.Env):
         top = 5.55
         row_h = 0.82
         col_w = [1.35, 5.35, 1.25, 1.45]
-        headers = ["編號", "獎勵池", "選擇", "獎勵"]
+        headers = ["Index", "Reward pool", "Choice", "Reward"]
         total_w = sum(col_w)
 
         _ui_text(ax, left, 6.05, f"Multi-Armed Bandit  mode={self.mode}  step={self.step_count}/{self.episode_step_limit}",
@@ -364,16 +364,16 @@ class MABEnv(gym.Env):
                 ax.add_patch(patches.Rectangle((x, y), width, row_h, facecolor=row_face, edgecolor="#dcdcdc", linewidth=1.0))
                 x += width
 
-            # 編號: RR uses 🎰 A0. Draw a colorful slot icon to avoid monochrome emoji rendering.
+            # Index: RR uses 🎰 A0. Draw a colorful slot icon to avoid monochrome emoji rendering.
             _draw_slot_icon(ax, left + 0.36, y + row_h / 2, size=0.36)
             _ui_text(ax, left + 0.82, y + row_h / 2, f"A{i}", ha="left", va="center", fontsize=13, fontweight="bold", color="#222222")
 
-            # 獎勵池: draw all ten RR reward symbols in color.
+            # Reward pool: draw all ten RR reward symbols in color.
             pool_x0 = left + col_w[0] + 0.30
             for j, reward_value in enumerate(getattr(self, "machine_pools", [[0] * 10])[i]):
                 _draw_reward_icon(ax, reward_value, pool_x0 + j * 0.47, y + row_h / 2, size=0.34)
 
-            # 選擇: RR shows 👈 or 🔘. Use a yellow pointer or grey radio dot.
+            # Choice: RR shows 👈 or 🔘. Use a yellow pointer or grey radio dot.
             select_cx = left + col_w[0] + col_w[1] + col_w[2] / 2
             select_cy = y + row_h / 2
             if i == getattr(self, "selected", 0):
@@ -386,7 +386,7 @@ class MABEnv(gym.Env):
             else:
                 ax.add_patch(patches.Circle((select_cx, select_cy), 0.14, facecolor="#e9ecef", edgecolor="#868e96", linewidth=1.0))
 
-            # 獎勵: unknown until selected this step, matching RR's ❔ behavior.
+            # Reward: unknown until selected this step, matching RR's ❔ behavior.
             reward_cx = left + col_w[0] + col_w[1] + col_w[2] + col_w[3] / 2
             _draw_reward_icon(ax, displayed[i], reward_cx, y + row_h / 2, size=0.40)
 
@@ -394,7 +394,7 @@ class MABEnv(gym.Env):
         ax.add_patch(patches.Rectangle((left, progress_y), total_w, 0.13, facecolor="#e5e5e5", edgecolor="none"))
         ax.add_patch(patches.Rectangle((left, progress_y), total_w * self.step_count / self.episode_step_limit, 0.13,
                                        facecolor="#3ca65c", edgecolor="none"))
-        _ui_text(ax, left, progress_y - 0.26, "每 10 次拉霸為一回合", ha="left", va="center", fontsize=10, color="#555555")
+        _ui_text(ax, left, progress_y - 0.26, "One episode = 10 pulls", ha="left", va="center", fontsize=10, color="#555555")
         return _figure_to_rgb_array(fig)
 
 
@@ -918,10 +918,10 @@ def _mab_render_html(self) -> str:
     <table style="border-collapse:collapse; font-size:28px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.08);">
       <thead>
         <tr style="background:#f0f0f0;">
-          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">編號</th>
-          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">獎勵池</th>
-          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">選擇</th>
-          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">獎勵</th>
+          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">Index</th>
+          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">Reward pool</th>
+          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">Choice</th>
+          <th style="border:1px solid #ddd; padding:10px 12px; text-align:center;">Reward</th>
         </tr>
       </thead>
       <tbody>{''.join(rows)}</tbody>
@@ -929,7 +929,7 @@ def _mab_render_html(self) -> str:
     <div style="height:8px; background:#e5e5e5; margin-top:10px; width:100%;">
       <div style="height:8px; background:#3ca65c; width:{progress}%;"></div>
     </div>
-    <div style="font-size:13px; color:#555; margin-top:6px;">mode={self.mode} · step={self.step_count}/{self.episode_step_limit} · 每 10 次拉霸為一回合</div>
+    <div style="font-size:13px; color:#555; margin-top:6px;">mode={self.mode} · step={self.step_count}/{self.episode_step_limit} · one episode = 10 pulls</div>
     """
     return _rr_html_shell("🎰 Multi-Armed Bandit", body)
 

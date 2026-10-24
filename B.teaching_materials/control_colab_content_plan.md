@@ -1,13 +1,13 @@
-# 對照組 Colab Notebook 內容規劃
+# Control Group Colab Notebook Content Plan
 
-**設計原則：** 所有程式碼預先寫好，學生只需修改標記 `🔧` 的參數數值並執行。
-不要求學生理解每一行程式碼，重點是觀察參數改變後的視覺化結果。
+**Design principle:** All code is written in advance; students only need to change the parameter values marked `🔧` and run it.
+Students are not required to understand every line of code; the focus is on observing the visualization results after parameters change.
 
-分為兩份 Notebook（檔名對應 rr_envs.py 環境）：
-- `RL_Day1_RR.ipynb`：MAB → Maze1D → Maze2D（第1堂用）
-- `RL_Day2_RR.ipynb`：Heli → Fighter（第2堂用）
+Split into two notebooks (file names correspond to the rr_envs.py environments):
+- `RL_Day1_RR.ipynb`: MAB → Maze1D → Maze2D (used in Session 1)
+- `RL_Day2_RR.ipynb`: Heli → Fighter (used in Session 2)
 
-**環境來源：** `rr_envs.py`（自製 Gymnasium 環境，reward function 對齊 RR 原始碼）
+**Environment source:** `rr_envs.py` (custom Gymnasium environments whose reward functions are aligned with the RR source code)
 
 ---
 
@@ -15,7 +15,7 @@
 
 ---
 
-### Cell 1 — 安裝與匯入（Setup）
+### Cell 1 — Installation and imports (Setup)
 
 ```python
 # Run this cell first — downloads the custom environment and installs packages
@@ -38,7 +38,7 @@ print("✅ Setup complete!")
 
 ---
 
-### Cell 2 — Markdown 說明：今天的目標
+### Cell 2 — Markdown: Today's goal
 
 ```markdown
 ## Today's Goal
@@ -54,7 +54,7 @@ Focus on **what changes when you adjust the 🔧 parameters**.
 
 ---
 
-### Cell 3 — Markdown 說明：Part 1 — MAB
+### Cell 3 — Markdown: Part 1 — MAB
 
 ```markdown
 ## Part 1: Multi-Armed Bandit (MAB)
@@ -71,7 +71,7 @@ What's different about the two reward curves?
 
 ---
 
-### Cell 4 — MAB 程式（學生只改 epsilon）
+### Cell 4 — MAB code (students only change epsilon)
 
 ```python
 # ============================================================
@@ -118,7 +118,7 @@ print(f"Actual best machine: Machine #{np.argmax(env.true_probs)}")
 
 ---
 
-### Cell 5 — Markdown 說明：Part 2 — Maze1D（教師演示）
+### Cell 5 — Markdown: Part 2 — Maze1D (instructor demo)
 
 ```markdown
 ## Part 2: Maze 1D — Effect of γ (Gamma)  *(Teacher Demo)*
@@ -137,7 +137,7 @@ Change **gamma** between 0.5 and 0.99 and observe the difference in learned beha
 
 ---
 
-### Cell 6 — Maze1D 演示程式（教師使用，學生跟著執行）
+### Cell 6 — Maze1D demo code (used by the instructor; students run along)
 
 ```python
 # ============================================================
@@ -181,7 +181,7 @@ plt.show()
 
 ---
 
-### Cell 7 — Markdown 說明：Part 3 — Maze2D
+### Cell 7 — Markdown: Part 3 — Maze2D
 
 ```markdown
 ## Part 3: Maze 2D — Q-Table Visualization
@@ -200,7 +200,7 @@ how good each action (Up/Down/Left/Right) is from each cell.
 
 ---
 
-### Cell 8 — Maze2D Q-learning（學生只改三個參數）
+### Cell 8 — Maze2D Q-learning (students change only three parameters)
 
 ```python
 # ============================================================
@@ -258,7 +258,7 @@ print(f"Success rate (last 500 episodes): {np.mean(episode_rewards[-500:]):.1%}"
 
 ---
 
-### Cell 9 — Markdown 說明：Q-table 視覺化
+### Cell 9 — Markdown: Q-table visualization
 
 ```markdown
 ## Q-Table Visualization
@@ -274,7 +274,7 @@ Look at the heatmap. Can you trace a path from **S** to **G** just by following 
 
 ---
 
-### Cell 10 — Maze2D Q-table 熱力圖
+### Cell 10 — Maze2D Q-table heatmap
 
 ```python
 grid_size = env.grid_size   # e.g. 5 for 5×5
@@ -310,7 +310,7 @@ plt.show()
 
 ---
 
-### Cell 1 — 安裝與匯入
+### Cell 1 — Installation and imports
 
 ```python
 import subprocess, sys
@@ -330,7 +330,7 @@ print("✅ Setup complete!")
 
 ---
 
-### Cell 2 — Markdown 說明：今天的目標
+### Cell 2 — Markdown: Today's goal
 
 ```markdown
 ## Today's Goal
@@ -344,7 +344,7 @@ Same as yesterday: you only need to change the 🔧 values.
 
 ---
 
-### Cell 3 — Markdown 說明：Part 1 — Heli
+### Cell 3 — Markdown: Part 1 — Heli
 
 ```markdown
 ## Part 1: Heli — Training Curve Analysis
@@ -362,7 +362,7 @@ The agent uses Q-learning to learn which actions keep it flying longer.
 
 ---
 
-### Cell 4 — Heli Q-learning（學生只改三個參數）
+### Cell 4 — Heli Q-learning (students change only three parameters)
 
 ```python
 # ============================================================
@@ -422,7 +422,7 @@ print(f"Average reward (last 20 episodes): {np.mean(episode_rewards[-20:]):.2f}"
 
 ---
 
-### Cell 5 — Markdown 說明：Part 2 — Fighter（選做）
+### Cell 5 — Markdown: Part 2 — Fighter (optional)
 
 ```markdown
 ## Part 2: Fighter — Free Exploration  *(Optional)*
@@ -437,7 +437,7 @@ There's no specific task — just explore and observe.
 
 ---
 
-### Cell 6 — Fighter（自由探索）
+### Cell 6 — Fighter (free exploration)
 
 ```python
 # ============================================================
@@ -481,9 +481,9 @@ plt.show()
 
 ---
 
-## 備注
+## Notes
 
-- 所有 `rr_envs.py` 環境的 reward function 與 RR 平台原始碼對齊，確保兩組學習行為可比較。
-- **FrozenLake 和 CartPole 不出現在這兩份 notebook** — 統一使用 rr_envs.py 自製環境。
-- `<YOUR_REPO>` 處在 push 到 GitHub 後替換為實際 repo 路徑。
-- 兩份 notebook push 後取得穩定 Colab 開啟連結（`colab.research.google.com/github/...`）。
+- The reward functions of all `rr_envs.py` environments are aligned with the RR platform source code, ensuring that the learning behavior of the two groups is comparable.
+- **FrozenLake and CartPole do not appear in these two notebooks** — the custom rr_envs.py environments are used throughout.
+- Replace `<YOUR_REPO>` with the actual repo path after pushing to GitHub.
+- After pushing the two notebooks, obtain stable Colab open links (`colab.research.google.com/github/...`).

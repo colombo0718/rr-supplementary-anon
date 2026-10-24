@@ -26,7 +26,7 @@ def load_pre(filename):
             sid = row["Student ID"].strip().upper()
             if sid == TEST_ID:
                 continue
-            students[sid] = parse_score(row["分數"])
+            students[sid] = parse_score(row["Score"])
     return students
 
 def load_post(filename, straightliners=None):
@@ -40,7 +40,7 @@ def load_post(filename, straightliners=None):
             nasa_keys  = get_section_keys(row, "4-")
             sus_keys   = get_section_keys(row, "5-")
             students[sid] = {
-                "score": parse_score(row["分數"]),
+                "score": parse_score(row["Score"]),
                 "sec3":  [int(row[k]) for k in sec3_keys],
                 "nasa":  [int(row[k]) for k in nasa_keys],
                 "sus":   [int(row[k]) for k in sus_keys],
@@ -69,10 +69,10 @@ def matched_post_ids(pre, post):
                 break
     return ids
 
-pre_a  = load_pre("RL Lab — Pre-Test (Group A) (回覆) - 表單回覆 1.csv")
-pre_b  = load_pre("RL Lab — Pre-Test (Group B) (回覆) - 表單回覆 1.csv")
-post_a = load_post("RL Lab — Post-Test (Group A) (回覆) - 表單回覆 1.csv", STRAIGHTLINERS_A)
-post_b = load_post("RL Lab — Post-Test (Group B) (回覆) - 表單回覆 1.csv")
+pre_a  = load_pre("RL_Lab_PreTest_GroupA.csv")
+pre_b  = load_pre("RL_Lab_PreTest_GroupB.csv")
+post_a = load_post("RL_Lab_PostTest_GroupA.csv", STRAIGHTLINERS_A)
+post_b = load_post("RL_Lab_PostTest_GroupB.csv")
 
 pairs_a = match_pairs(pre_a, post_a)
 pairs_b = match_pairs(pre_b, post_b)
@@ -110,43 +110,43 @@ def row(label, t, p, n1, n2=None):
 sep = "=" * 72
 
 print(sep)
-print("1. 組內配對 t-test（前後測）")
+print("1. Within-group paired t-test (pre/post)")
 print(sep)
 t,p = stats.ttest_rel(post_a_v, pre_a_v); row("Group A  pre→post", t, p, len(pairs_a))
 t,p = stats.ttest_rel(post_b_v, pre_b_v); row("Group B  pre→post", t, p, len(pairs_b))
 
 print(f"\n{sep}")
-print("2. 組間 t-test：Gain Score")
+print("2. Between-group t-test: Gain Score")
 print(sep)
 t,p = stats.ttest_ind(gains_a, gains_b); row("Gain A vs B", t, p, len(gains_a), len(gains_b))
 
 print(f"\n{sep}")
-print("3. 組間 t-test：後測分數（全部）")
+print("3. Between-group t-test: post-test score (all)")
 print(sep)
 t,p = stats.ttest_ind(post_a_all, post_b_all); row("Post-test A vs B", t, p, len(post_a_all), len(post_b_all))
 
 print(f"\n{sep}")
-print("4. 組間 t-test：SUS 易用性")
+print("4. Between-group t-test: SUS usability")
 print(sep)
 t,p = stats.ttest_ind(sus_a_all, sus_b);   row("SUS  A(all) vs B",          t, p, len(sus_a_all), len(sus_b))
 t,p = stats.ttest_ind(sus_a_clean, sus_b); row("SUS  A(excl.straightliner) vs B", t, p, len(sus_a_clean), len(sus_b))
 
 print(f"\n{sep}")
-print("5. 組間 t-test：NASA-TLX")
+print("5. Between-group t-test: NASA-TLX")
 print(sep)
 t,p = stats.ttest_ind(nasa_a_all, nasa_b);   row("NASA-TLX  A(all) vs B",   t, p, len(nasa_a_all), len(nasa_b))
 t,p = stats.ttest_ind(nasa_a_clean, nasa_b); row("NASA-TLX  A(excl.) vs B", t, p, len(nasa_a_clean), len(nasa_b))
 
 print(f"\n{sep}")
-print("6. 組間 t-test：Section 3 分項")
+print("6. Between-group t-test: Section 3 items")
 print(sep)
-t,p = stats.ttest_ind(sec3_a, sec3_b); row("Sec3 整體 A vs B",          t, p, len(sec3_a), len(sec3_b))
-t,p = stats.ttest_ind(par_a,  par_b);  row("Sec3-2 參數信心 A vs B",    t, p, len(par_a),  len(par_b))
-t,p = stats.ttest_ind(vis_a,  vis_b);  row("Sec3-3 視覺化理解 A vs B",  t, p, len(vis_a),  len(vis_b))
-t,p = stats.ttest_ind(mot_a,  mot_b);  row("Sec3-4 學習動機 A vs B",    t, p, len(mot_a),  len(mot_b))
+t,p = stats.ttest_ind(sec3_a, sec3_b); row("Sec3 overall A vs B",        t, p, len(sec3_a), len(sec3_b))
+t,p = stats.ttest_ind(par_a,  par_b);  row("Sec3-2 parameter confidence A vs B", t, p, len(par_a),  len(par_b))
+t,p = stats.ttest_ind(vis_a,  vis_b);  row("Sec3-3 visualization understanding A vs B", t, p, len(vis_a),  len(vis_b))
+t,p = stats.ttest_ind(mot_a,  mot_b);  row("Sec3-4 learning motivation A vs B", t, p, len(mot_a),  len(mot_b))
 
 print(f"\n{sep}")
-print("描述統計摘要")
+print("Descriptive statistics summary")
 print(sep)
 print(f"  Gain A:  M={np.mean(gains_a):.2f}  SD={np.std(gains_a,ddof=1):.2f}  n={len(gains_a)}")
 print(f"  Gain B:  M={np.mean(gains_b):.2f}  SD={np.std(gains_b,ddof=1):.2f}  n={len(gains_b)}")
@@ -161,10 +161,10 @@ print(f"  Sec3-4 B: M={np.mean(mot_b):.2f}  SD={np.std(mot_b,ddof=1):.2f}")
 
 
 # ============================================================
-# 只看配對樣本（前後測都有作答的人）
+# Matched sample only (participants who completed both pre- and post-test)
 # ============================================================
 print(f"\n{sep}")
-print("7. 配對樣本限定分析（A 縮小至前後測都做的人）")
+print("7. Matched-sample analysis (Group A restricted to those with both pre- and post-test)")
 print(sep)
 
 matched_a_ids = matched_post_ids(pre_a, post_a)
@@ -182,33 +182,33 @@ vis_a_m  = [v["sec3"][2] for v in post_a_m.values()]
 
 t,p = stats.ttest_ind(sus_a_m, sus_b);   row("SUS  A(matched) vs B(matched)",   t, p, len(sus_a_m), len(sus_b))
 t,p = stats.ttest_ind(nasa_a_m, nasa_b); row("NASA A(matched) vs B(matched)",   t, p, len(nasa_a_m), len(nasa_b))
-t,p = stats.ttest_ind(sec3_a_m, sec3_b); row("Sec3 整體 A(matched) vs B",      t, p, len(sec3_a_m), len(sec3_b))
-t,p = stats.ttest_ind(par_a_m,  par_b);  row("Sec3-2 參數信心 A(matched) vs B", t, p, len(par_a_m),  len(par_b))
-t,p = stats.ttest_ind(vis_a_m,  vis_b);  row("Sec3-3 視覺化 A(matched) vs B",   t, p, len(vis_a_m),  len(vis_b))
-t,p = stats.ttest_ind(mot_a_m,  mot_b);  row("Sec3-4 動機 A(matched) vs B",     t, p, len(mot_a_m),  len(mot_b))
+t,p = stats.ttest_ind(sec3_a_m, sec3_b); row("Sec3 overall A(matched) vs B",  t, p, len(sec3_a_m), len(sec3_b))
+t,p = stats.ttest_ind(par_a_m,  par_b);  row("Sec3-2 param. confidence A(matched) vs B", t, p, len(par_a_m),  len(par_b))
+t,p = stats.ttest_ind(vis_a_m,  vis_b);  row("Sec3-3 visualization A(matched) vs B", t, p, len(vis_a_m),  len(vis_b))
+t,p = stats.ttest_ind(mot_a_m,  mot_b);  row("Sec3-4 motivation A(matched) vs B", t, p, len(mot_a_m),  len(mot_b))
 
 print()
 print(f"  SUS A(matched):     M={np.mean(sus_a_m):.1f}  SD={np.std(sus_a_m,ddof=1):.1f}  n={len(sus_a_m)}")
 print(f"  NASA A(matched):    M={np.mean(nasa_a_m):.2f}  SD={np.std(nasa_a_m,ddof=1):.2f}  n={len(nasa_a_m)}")
-print(f"  Sec3 整體 A(m): M={np.mean(sec3_a_m):.2f}  Sec3-2 A(m): M={np.mean(par_a_m):.2f}  Sec3-3 A(m): M={np.mean(vis_a_m):.2f}  Sec3-4 A(m): M={np.mean(mot_a_m):.2f}")
-print(f"  配對 A 學生 ID（n={len(matched_a_ids)}）：{matched_a_ids}")
-print(f"  配對 B 學生 ID（n={len(matched_b_ids)}）：{matched_b_ids}")
+print(f"  Sec3 overall A(m): M={np.mean(sec3_a_m):.2f}  Sec3-2 A(m): M={np.mean(par_a_m):.2f}  Sec3-3 A(m): M={np.mean(vis_a_m):.2f}  Sec3-4 A(m): M={np.mean(mot_a_m):.2f}")
+print(f"  Matched A student IDs (n={len(matched_a_ids)}): {matched_a_ids}")
+print(f"  Matched B student IDs (n={len(matched_b_ids)}): {matched_b_ids}")
 
 
 # ============================================================
-# 班級整體比較（不要求個人配對，獨立樣本 t-test）
+# Whole-class comparison (no individual matching required; independent-samples t-test)
 # ============================================================
 print(f"\n{sep}")
-print("8. 班級整體前後測比較（獨立樣本 t-test）")
+print("8. Whole-class pre/post comparison (independent-samples t-test)")
 print(sep)
 
 pre_a_all  = list(pre_a.values())
 pre_b_all  = list(pre_b.values())
 
 t,p = stats.ttest_ind(post_a_all, pre_a_all)
-row("Group A  班級整體 pre vs post", t, p, len(pre_a_all), len(post_a_all))
+row("Group A  whole-class pre vs post", t, p, len(pre_a_all), len(post_a_all))
 t,p = stats.ttest_ind(post_b_all, pre_b_all)
-row("Group B  班級整體 pre vs post", t, p, len(pre_b_all), len(post_b_all))
+row("Group B  whole-class pre vs post", t, p, len(pre_b_all), len(post_b_all))
 
 print()
 print(f"  Group A pre  (n={len(pre_a_all)}):  M={np.mean(pre_a_all):.2f}  SD={np.std(pre_a_all,ddof=1):.2f}")

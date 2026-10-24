@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>圖 5-4 Section 3 平台回饋比較</title>
+<title>Figure 5-4 Section 3 platform feedback comparison</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 <script src="data.js"></script>
 <style>
   body {
     margin: 0;
     padding: 40px;
-    font-family: "標楷體", "DFKai-SB", "PMingLiU", serif;
+    font-family: "Times New Roman", serif;
     background: white;
     width: 1200px;
     height: 640px;
@@ -33,10 +33,16 @@ const s = window.DATA.section3;
 new Chart(document.getElementById('chart'), {
   type: 'bar',
   data: {
-    labels: s.items,
+    labels: s.items.map(t => ({
+      '3-1 \u4ecb\u9762\u6613\u7528': '3-1 Interface ease of use',
+      '3-2 \u53c3\u6578\u4fe1\u5fc3': '3-2 Parameter confidence',
+      '3-3 \u8996\u89ba\u5316\u5e6b\u52a9': '3-3 Visualization help',
+      '3-4 \u5b78\u7fd2\u52d5\u6a5f': '3-4 Learning motivation',
+      '3-5 \u63a8\u85a6\u610f\u9858': '3-5 Willingness to recommend',
+    })[t] || t),
     datasets: [
       {
-        label: 'RR 組（A，n=10）',
+        label: 'RR group (A, n=10)',
         data: s.A_paired.map(v => +v.toFixed(2)),
         backgroundColor: 'rgba(46, 134, 222, 0.85)',
         borderColor: 'rgba(46, 134, 222, 1)',
@@ -44,7 +50,7 @@ new Chart(document.getElementById('chart'), {
         borderRadius: 4,
       },
       {
-        label: 'Colab 組（B，n=12）',
+        label: 'Colab group (B, n=12)',
         data: s.B_paired.map(v => +v.toFixed(2)),
         backgroundColor: 'rgba(255, 159, 67, 0.85)',
         borderColor: 'rgba(255, 159, 67, 1)',
@@ -71,7 +77,7 @@ new Chart(document.getElementById('chart'), {
         ticks: { font: { size: 14 }, stepSize: 1 },
         title: {
           display: true,
-          text: '平均分數（Likert 1–5）',
+          text: 'Mean score (Likert 1-5)',
           font: { size: 15 },
         },
         grid: { color: '#eee' },
@@ -95,7 +101,7 @@ new Chart(document.getElementById('chart'), {
         });
       });
 
-      // 於每題上方標示 Mann-Whitney U 的 p 值與效果量 r
+      // Label each item with the Mann-Whitney U p value and effect size r
       const mw = window.DATA.stats.sec3_MW;
       const meta0 = chart.getDatasetMeta(0);
       const meta1 = chart.getDatasetMeta(1);

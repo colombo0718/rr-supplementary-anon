@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>圖：兩組配對樣本前後測增益比較</title>
+<title>Figure: Pretest-to-posttest gain, paired samples by group</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 <script src="data.js"></script>
 <style>
   body {
     margin: 0;
     padding: 40px;
-    font-family: "標楷體", "DFKai-SB", "PMingLiU", serif;
+    font-family: "Times New Roman", serif;
     background: white;
     width: 1200px;
     height: 640px;
@@ -43,10 +43,10 @@ const ds = window.DATA.stats;
 new Chart(document.getElementById('chart'), {
   type: 'bar',
   data: {
-    labels: ['RR 組（n=10）', 'Colab 組（n=12）'],
+    labels: ['RR group (n=10)', 'Colab group (n=12)'],
     datasets: [
       {
-        label: '前測',
+        label: 'Pretest',
         data: [ds.concept_wilcoxon_A.pre_M, ds.concept_wilcoxon_B.pre_M],
         backgroundColor: [colors.A_pre, colors.B_pre],
         borderColor: [colors.A_border, colors.B_border],
@@ -54,7 +54,7 @@ new Chart(document.getElementById('chart'), {
         borderRadius: 3,
       },
       {
-        label: '後測',
+        label: 'Posttest',
         data: [ds.concept_wilcoxon_A.post_M, ds.concept_wilcoxon_B.post_M],
         backgroundColor: [colors.A_post, colors.B_post],
         borderColor: [colors.A_border, colors.B_border],
@@ -75,7 +75,7 @@ new Chart(document.getElementById('chart'), {
       y: {
         beginAtZero: true, max: 8,
         ticks: { font: { size: 14 }, stepSize: 1 },
-        title: { display: true, text: '平均分數（滿分 8）', font: { size: 15 } },
+        title: { display: true, text: 'Mean score (max 8)', font: { size: 15 } },
         grid: { color: '#eee' },
       },
     },
@@ -84,8 +84,8 @@ new Chart(document.getElementById('chart'), {
     id: 'gainArrow',
     afterDatasetsDraw(chart) {
       const { ctx } = chart;
-      const meta0 = chart.getDatasetMeta(0); // 前測
-      const meta1 = chart.getDatasetMeta(1); // 後測
+      const meta0 = chart.getDatasetMeta(0); // pretest
+      const meta1 = chart.getDatasetMeta(1); // posttest
       const sigs = ['p=.113 n.s. (r=.65)', 'p=.012*  (r=.76)'];
       ctx.save();
       for (let i = 0; i < 2; i++) {

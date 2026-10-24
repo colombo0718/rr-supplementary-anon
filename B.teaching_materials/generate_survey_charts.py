@@ -1,6 +1,6 @@
 """
 generate_survey_charts.py
-產生問卷 Section 2 三張圖表題用圖，輸出到 survey_charts/
+Generates the three charts used by the chart-reading questions in Section 2 of the questionnaire; output goes to survey_charts/
 """
 
 import numpy as np

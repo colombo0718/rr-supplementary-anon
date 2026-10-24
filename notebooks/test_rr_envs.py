@@ -1,11 +1,11 @@
 """
-test_rr_envs.py — 驗證 rr_envs.py 五個環境正確性
+test_rr_envs.py — verify the correctness of the five rr_envs.py environments
 ====================================================
-測試項目：
-  1. reset / step 介面符合 Gymnasium 規範
-  2. reward 數值對照 RR 原始碼
-  3. done 條件正確觸發
-  4. 跑一輪 Q-learning 不崩潰
+Test items:
+  1. reset / step interface conforms to the Gymnasium spec
+  2. reward values match the RR source code
+  3. done condition triggers correctly
+  4. one round of Q-learning runs without crashing
 """
 
 import sys, os
@@ -34,7 +34,7 @@ obs, _ = env.reset()
 results.append(check("observation shape", obs.shape == (1,), str(obs.shape)))
 results.append(check("action space n=5", env.action_space.n == 5))
 
-# 跑完整一個 episode (10 steps)，確認 done 在第10步
+# run a full episode (10 steps) and confirm done on step 10
 done = False
 steps = 0
 total_r = 0
@@ -46,7 +46,7 @@ while not done:
 results.append(check("episode ends at 10 steps", steps == 10, f"steps={steps}"))
 results.append(check("reward in valid set {0,1,3,10}", True, f"total={total_r:.0f}"))
 
-# 驗證 jackpot pool 有 10 分的可能
+# verify the jackpot pool can yield 10 points
 env_j = MABEnv(mode="jackpot")
 found_diamond = False
 for _ in range(500):
@@ -55,7 +55,7 @@ for _ in range(500):
     if r == 10:
         found_diamond = True
         break
-# jackpot 機器可能洗牌到任意位置，掃所有機器
+# the jackpot machine may be shuffled to any position, so scan all machines
 if not found_diamond:
     for trial in range(200):
         env_j.reset()
@@ -76,28 +76,28 @@ env = Maze1DEnv(start_pos=4, feedback_mode="none")
 obs, _ = env.reset()
 results.append(check("reset obs == start_pos", obs == 4, f"obs={obs}"))
 
-# 走到終點 (pos=9) → reward +10, done
+# reach the goal (pos=9): reward +10, done
 env.reset()
 env.pos = 8
 obs, r, done, _, _ = env.step(1)   # right → pos=9
 results.append(check("goal reward = +10", r == 10.0, f"r={r}"))
 results.append(check("goal done=True", done))
 
-# 走到炸彈 (pos=0) → reward -10, done
+# reach the bomb (pos=0): reward -10, done
 env.reset()
 env.pos = 1
 obs, r, done, _, _ = env.step(2)   # left → pos=0
 results.append(check("bomb reward = -10", r == -10.0, f"r={r}"))
 results.append(check("bomb done=True", done))
 
-# pie 模式終點 +2
+# pie mode goal +2
 env_pie = Maze1DEnv(start_pos=4, feedback_mode="pie")
 env_pie.reset()
 env_pie.pos = 8
 _, r, done, _, _ = env_pie.step(1)
 results.append(check("pie mode goal reward = +2", r == 2.0, f"r={r}"))
 
-# positive feedback：向右(非終點) +1
+# positive feedback: moving right (not at goal) +1
 env_pos = Maze1DEnv(start_pos=4, feedback_mode="positive")
 env_pos.reset()
 env_pos.pos = 4
@@ -113,12 +113,12 @@ obs, _ = env.reset()
 results.append(check("reset at (0,0)", list(obs) == [0.0, 0.0], f"obs={obs}"))
 results.append(check("action space n=5", env.action_space.n == 5))
 
-# 一般移動 reward=0
+# normal move: reward=0
 _, r, done, _, _ = env.step(4)   # right
 results.append(check("non-goal step reward=0", r == 0.0, f"r={r}"))
 results.append(check("non-goal done=False", not done))
 
-# 直接移到終點確認 reward=+10
+# move directly to the goal and confirm reward=+10
 env.reset()
 env.x, env.y = 8, 9
 _, r, done, _, _ = env.step(4)   # right → (9,9)
@@ -134,7 +134,7 @@ obs, _ = env.reset()
 results.append(check("obs shape (3,)", obs.shape == (3,), str(obs.shape)))
 results.append(check("obs in [-1,1]", np.all(np.abs(obs) <= 1.0), str(obs)))
 
-# 存活每步 +0.01（不撞牆時）
+# survival bonus +0.01 per step (when not hitting a wall)
 obs, _ = env.reset()
 _, r, done, _, _ = env.step(1)   # flap
 if not done:
@@ -142,19 +142,19 @@ if not done:
 else:
     results.append(check("survival reward (skipped, immediate crash)", True))
 
-# 強制撞邊界 → reward 含 -10
+# force a boundary hit: reward includes -10
 env.reset()
-env.heli_y = 1.0   # 接近頂部
-_, r, done, _, _ = env.step(1)   # flap → 撞頂
+env.heli_y = 1.0   # near the top
+_, r, done, _, _ = env.step(1)   # flap -> hit the ceiling
 if done:
     results.append(check("boundary crash reward contains -10", r <= -9.0, f"r={r:.3f}"))
 else:
-    # 再推一步
+    # push one more step
     env.heli_y = 0.5
     _, r, done, _, _ = env.step(1)
     results.append(check("boundary crash done=True (force)", done, f"heliY={env.heli_y:.1f}"))
 
-# fixed 模式跑50步不崩潰
+# fixed mode runs 50 steps without crashing
 env.reset()
 crashed = False
 for _ in range(50):
@@ -172,26 +172,26 @@ obs, _ = env.reset()
 results.append(check("obs shape (5,)", obs.shape == (5,), str(obs.shape)))
 results.append(check("obs in [-1,1]", np.all(np.abs(obs) <= 1.01), str(np.round(obs,3))))
 
-# 強制命中：把 rock 移到飛機正上方，然後 shoot
+# force a hit: move the rock directly above the plane, then shoot
 env.reset()
 env.rock = {"x": env.player_x, "y": env.PLAYER_Y - env.BULLET_SPD, "vx": 0.0, "vy": 0.0}
 env.bullet = None
 env.cooldown = 0
-_, r, done, _, _ = env.step(3)   # shoot → bullet y = PLAYER_Y → 移動後撞 rock
-# 如果一步沒撞上（bullet 還沒到）就再走一步
+_, r, done, _, _ = env.step(3)   # shoot -> bullet y = PLAYER_Y -> after moving, hits the rock
+# if it did not hit in one step (bullet has not arrived yet), take one more step
 if r == 0.0 and not done:
     env.rock["y"] = env.PLAYER_Y - env.BULLET_SPD * 0.5
     _, r, done, _, _ = env.step(0)
 results.append(check("hit reward = +10", r == 10.0 or env.hits > 0, f"r={r}, hits={env.hits}"))
 
-# miss：bullet 飛出上邊界
+# miss: bullet flies past the top boundary
 env.reset()
-env.bullet = {"x": env.player_x, "y": 5.0}   # 接近頂部
-env.rock = {"x": 9999.0, "y": 9999.0, "vx": 0.0, "vy": 0.0}   # 移到畫面外
-_, r, done, _, _ = env.step(0)   # none → bullet 繼續移動並飛出
+env.bullet = {"x": env.player_x, "y": 5.0}   # near the top
+env.rock = {"x": 9999.0, "y": 9999.0, "vx": 0.0, "vy": 0.0}   # move off screen
+_, r, done, _, _ = env.step(0)   # none -> bullet keeps moving and flies out
 results.append(check("miss penalty = -1", r == -1.0, f"r={r}"))
 
-# crash：rock 在 player 位置
+# crash: rock at the player position
 env.reset()
 env.rock = {"x": env.player_x, "y": float(env.PLAYER_Y), "vx": 0.0, "vy": 0.0}
 env.bullet = None
@@ -200,9 +200,9 @@ results.append(check("crash penalty = -100", r == -100.0, f"r={r}"))
 results.append(check("crash done=True", done))
 
 # ─────────────────────────────────────────────
-# 6. run_q_learning 整合測試
+# 6. run_q_learning integration test
 # ─────────────────────────────────────────────
-print("\n── run_q_learning 整合測試 ──")
+print("\n── run_q_learning integration test ──")
 for EnvCls, kwargs, bins, episodes, name in [
     (MABEnv,    {"mode":"slight"},  None, 100, "MAB"),
     (Maze1DEnv, {"start_pos":4},    None, 100, "Maze1D"),
@@ -223,14 +223,14 @@ for EnvCls, kwargs, bins, episodes, name in [
         results.append(check(f"Q-learning {name}", False, str(e)))
 
 # ─────────────────────────────────────────────
-# 總結
+# Summary
 # ─────────────────────────────────────────────
 passed = sum(results)
 total  = len(results)
 print(f"\n{'='*40}")
-print(f"結果：{passed} / {total} 通過")
+print(f"Result: {passed} / {total} passed")
 if passed == total:
-    print("🎉 全部通過，rr_envs.py 可以用於 Colab 實驗！")
+    print("🎉 All passed; rr_envs.py can be used for the Colab experiment!")
 else:
-    print(f"⚠️  {total - passed} 項失敗，請檢查上方輸出。")
+    print(f"⚠️  {total - passed} failed; check the output above.")
 print('='*40)

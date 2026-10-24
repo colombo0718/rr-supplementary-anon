@@ -1,90 +1,90 @@
-# 論文文獻資料夾
+# Literature Folder
 
-## 說明
+## Overview
 
-本資料夾收錄本論文相關的學術文獻資料，包含：
-- **論文分析筆記**（中文整理）：19 份來自原 hackmd_notes 的個人解析筆記
-- **分類目錄**：`AI教育論文解析 分類目錄.md`
+This folder collects the academic literature related to this study, including:
+- **Paper analysis notes** (summarized in Chinese in the original): 19 personal analysis notes from the original hackmd_notes
+- **Catalogue**: `ai_education_papers_catalog.md`
 
-來源：(local notes folder)
-
----
-
-## 文獻清單（19 篇）
-
-### A. 直接相關：RL 教學平台 / K-12 RL 教育（6 篇）
-
-| 文獻 | 用途 |
-|------|------|
-| `論文分析：Reinforcement Learning for Education_ Opportunities and Challenges` | RL 教育綜述（第二章理論基礎）|
-| `論文分析：《ARtonomous_ Introducing Middle School Students to Reinforcement Learning T` | 對標案例（已引用 [Dietz et al., 2022]）|
-| `論文分析：《An Interactive Robot Platform for Introducing Reinforcement Learning to K-` | 互動機器人 + RL 教學（第二章對比）|
-| `論文分析：《Introducing Reinforcement Learning to High School Students Through the Int` | 高中生 RL 教學（第二章對比）|
-| `論文分析：《Introducing Reinforcement Learning to K-12 Students with Robots and Augmen` | K-12 + RL + AR（第二章對比）|
-| `論文解析：ARtonomous_ Introducing Middle School Students to Reinforcement Learning Th` | ARtonomous 第二份解析（與第 2 份重疊）|
-
-### B. 機器學習 / AI 教學遊戲化（2 篇）
-
-| 文獻 | 用途 |
-|------|------|
-| `論文分析：《ML-Quest_ A Game for Introducing Machine Learning Concepts to K-12 Student` | 遊戲化 ML 教學（第二章「遊戲化教學」段）|
-| `論文分析：Teaching Machine Learning in K–12 Using Robotics` | K-12 機器學習實體教學 |
-
-### C. AI 教育綜述 / 方法學（11 篇）
-
-| 文獻 | 用途 |
-|------|------|
-| `論文分析：A Holistic Approach to the Design of Artificial Intelligence (AI) Education` | AI 教育設計通用框架 |
-| `論文分析：A Review of Artificial Intelligence (AI) in Education from 2010 to 2020` | AI 教育十年回顧 |
-| `論文分析：A review of AI teaching and learning from 2000 to 2020` | AI 教學二十年回顧 |
-| `論文分析：AI Technologies for Education_ Recent Research & Future Directions` | AI 教育技術趨勢 |
-| `論文分析：Applications of AI in Education` | AI 教育應用 |
-| `論文分析：Contextualizing AI Education for K-12 Students to Enhance Their Learning of` | K-12 AI 情境化 |
-| `論文分析：Designing AI Learning Experiences for K-12_ Emerging Works, Future Opportun` | K-12 AI 學習設計 |
-| `論文分析：Machine learning role playing game_ Instructional design of AI education fo` | ML 角色扮演遊戲教學設計 |
-| `論文分析：On the Track of Artificial Intelligence_ Learning with Intelligent Personal` | AI 個人助教學習 |
-| `論文分析：Systematic review of research on artificial intelligence in K-12 education` | K-12 AI 教育系統性回顧 |
-| `AI教育論文解析 分類目錄` | 上述文獻的分類索引 |
+Source: (local notes folder)
 
 ---
 
-## 與論文現有引用對照
+## Literature List (19 items)
 
-### 目前 md 已引用（9 處）
+### A. Directly Related: RL Teaching Platforms / K-12 RL Education (6 items)
 
-- **第二章 2.1**：Silver et al. 2018（AlphaGo）、Sallab et al. 2017（自駕車）、Riedmiller et al. 2009（機器人）、Dietz et al. 2022（ARtonomous，3 次）、Touretzky et al. 2019、Long & Magerko 2020
-- **第二章 2.2**：Dietz et al. 2022（2 次）
-- **第二章 2.3**：1 處
+| Literature | Use |
+|------|------|
+| `Paper analysis: Reinforcement Learning for Education_ Opportunities and Challenges` | Survey of RL in education (Chapter 2, theoretical background) |
+| `Paper analysis: ARtonomous_ Introducing Middle School Students to Reinforcement Learning T` | Benchmark case (already cited as [Dietz et al., 2022]) |
+| `Paper analysis: An Interactive Robot Platform for Introducing Reinforcement Learning to K-` | Interactive robot + RL teaching (Chapter 2 comparison) |
+| `Paper analysis: Introducing Reinforcement Learning to High School Students Through the Int` | RL teaching for high school students (Chapter 2 comparison) |
+| `Paper analysis: Introducing Reinforcement Learning to K-12 Students with Robots and Augmen` | K-12 + RL + AR (Chapter 2 comparison) |
+| `Paper analysis (second): ARtonomous_ Introducing Middle School Students to Reinforcement Learning Th` | Second analysis of ARtonomous (overlaps with item 2) |
 
-### 5/9 老師明確要求補引（4 大方向）
+### B. Gamified Machine Learning / AI Teaching (2 items)
 
-| 補引方向 | 對應已備文獻 | 狀態 |
+| Literature | Use |
+|------|------|
+| `Paper analysis: ML-Quest_ A Game for Introducing Machine Learning Concepts to K-12 Student` | Gamified ML teaching (Chapter 2, "gamified teaching" paragraph) |
+| `Paper analysis: Teaching Machine Learning in K–12 Using Robotics` | Hands-on physical teaching of K-12 machine learning |
+
+### C. AI Education Surveys / Methodology (11 items)
+
+| Literature | Use |
+|------|------|
+| `Paper analysis: A Holistic Approach to the Design of Artificial Intelligence (AI) Education` | General framework for AI education design |
+| `Paper analysis: A Review of Artificial Intelligence (AI) in Education from 2010 to 2020` | Ten-year review of AI in education |
+| `Paper analysis: A review of AI teaching and learning from 2000 to 2020` | Twenty-year review of AI teaching and learning |
+| `Paper analysis: AI Technologies for Education_ Recent Research & Future Directions` | Trends in AI education technology |
+| `Paper analysis: Applications of AI in Education` | Applications of AI in education |
+| `Paper analysis: Contextualizing AI Education for K-12 Students to Enhance Their Learning of` | Contextualizing K-12 AI education |
+| `Paper analysis: Designing AI Learning Experiences for K-12_ Emerging Works, Future Opportun` | Designing K-12 AI learning experiences |
+| `Paper analysis: Machine learning role playing game_ Instructional design of AI education fo` | Instructional design of an ML role-playing game |
+| `Paper analysis: On the Track of Artificial Intelligence_ Learning with Intelligent Personal` | Learning with AI personal assistants |
+| `Paper analysis: Systematic review of research on artificial intelligence in K-12 education` | Systematic review of K-12 AI education |
+| `Catalogue of AI Education Paper Analyses` | Classification index of the above literature |
+
+---
+
+## Comparison with Existing Citations in the Paper
+
+### Currently cited in the md draft (9 places)
+
+- **Chapter 2, Section 2.1**: Silver et al. 2018 (AlphaGo), Sallab et al. 2017 (autonomous driving), Riedmiller et al. 2009 (robotics), Dietz et al. 2022 (ARtonomous, 3 times), Touretzky et al. 2019, Long & Magerko 2020
+- **Chapter 2, Section 2.2**: Dietz et al. 2022 (2 times)
+- **Chapter 2, Section 2.3**: 1 place
+
+### Four directions in which the instructor explicitly requested additional citations on 5/9
+
+| Direction | Matching literature on hand | Status |
 |---------|------------|------|
-| **SUS 業界標準（50-70 Marginal、70-85 Good）** | ⚠️ 需另找 Bangor et al. (2009) 等 SUS 文獻 | 缺 |
-| **Colab 作為熟悉工具的優勢 / 既有工具熟悉度** | ⚠️ 需另找 prior tool familiarity / habituation effect 文獻 | 缺 |
-| **RL 教學介面比較研究** | ✅ ARtonomous + An Interactive Robot Platform + Introducing RL 系列 | **可用** |
-| **視覺化教學成效研究** | ⚠️ 部分 AI 教育綜述有討論，需精選 | 部分有 |
+| **SUS industry standard (50-70 Marginal, 70-85 Good)** | ⚠️ Need to find SUS literature such as Bangor et al. (2009) | Missing |
+| **Advantages of Colab as a familiar tool / prior tool familiarity** | ⚠️ Need to find literature on prior tool familiarity / habituation effect | Missing |
+| **Comparative studies of RL teaching interfaces** | ✅ ARtonomous + An Interactive Robot Platform + Introducing RL series | **Usable** |
+| **Studies on the effectiveness of visualization in teaching** | ⚠️ Some AI education surveys discuss it; need to select carefully | Partial |
 
-### 缺口（需另尋）
+### Gaps (to be sourced elsewhere)
 
-1. **SUS 量表標準**：Bangor, A., Kortum, P., & Miller, J. (2009). *Determining what individual SUS scores mean*. Journal of Usability Studies.
-2. **NASA-TLX**：原始量表來源（Hart & Staveland, 1988）
-3. **Treatment Fidelity**：教育研究方法學文獻（Mowbray et al., 2003 等）
-4. **Quasi-experimental design**：Shadish, Cook & Campbell (2002)
-5. **學習動機 / Self-efficacy**：Bandura 經典文獻
-
----
-
-## 待辦
-
-- [ ] 從 19 篇中精選最直接相關的 5-8 篇，整理為**正式參考文獻清單**（APA 格式或學校規範格式）
-- [ ] 第二章內容對照各篇分析，補入合理引用
-- [ ] 5/9 老師要求的方法學文獻另尋（SUS、NASA-TLX、Treatment Fidelity、quasi-experimental）
-- [ ] 第三章（平台設計）若需引用 UI-driven 教學文獻，可從這批文獻中找
-- [ ] 第六章討論可引用 K-12 RL 教育文獻做對比（如：本研究為大學階段，與 K-12 文獻形成對比）
+1. **SUS scoring standard**: Bangor, A., Kortum, P., & Miller, J. (2009). *Determining what individual SUS scores mean*. Journal of Usability Studies.
+2. **NASA-TLX**: original source of the scale (Hart & Staveland, 1988)
+3. **Treatment fidelity**: educational research methodology literature (Mowbray et al., 2003, etc.)
+4. **Quasi-experimental design**: Shadish, Cook & Campbell (2002)
+5. **Learning motivation / self-efficacy**: classic Bandura literature
 
 ---
 
-## 歷史
+## To Do
 
-- 2026-05-10：從 (local notes folder) 複製 19 份論文分析筆記至此
+- [ ] From the 19 items, select the 5-8 most directly relevant and compile a **formal reference list** (APA format or the school's required format)
+- [ ] Check Chapter 2 against each analysis and add reasonable citations
+- [ ] Find the methodology literature requested by the instructor on 5/9 (SUS, NASA-TLX, treatment fidelity, quasi-experimental design)
+- [ ] For Chapter 3 (platform design), if UI-driven teaching literature is needed, look in this set
+- [ ] Chapter 6 (discussion) can cite K-12 RL education literature for contrast (e.g., this study is at the university level, in contrast to the K-12 literature)
+
+---
+
+## History
+
+- 2026-05-10: Copied the 19 paper analysis notes here from (local notes folder)
