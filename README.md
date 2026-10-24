@@ -30,4 +30,4 @@ python timing_analysis.py
 
 Figure data: `python figures/extract_data.py`.
 
-The notebooks download `rr_envs.py` from this repository. The placeholder `<ANONYMIZED_REPO_URL>` in `notebooks/RL_Day*_RR.ipynb` should be replaced with the anonymized repository address, or `rr_envs.py` can be uploaded to the Colab session manually.
+The RR notebooks download `rr_envs.py` from this anonymized repository (`notebooks/rr_envs.py`); alternatively, upload the file to the Colab session manually.
