@@ -12,6 +12,9 @@ All names, institutional details, student identifiers and platform URLs have bee
 | `B.教學執行/` | Teaching materials: lesson plans for the RR group and the Gymnasium + Colab group, task plan, questionnaire design. |
 | `C.數據收集/` | Pre-/post-test response data (CSV, pseudonymized), task completion records, and the analysis scripts (`analysis_v2.py`, `nasa_tlx_breakdown.py`, `timing_analysis.py`, `open_ended_extract.py`). |
 | `figures/` | Scripts and HTML sources for the figures (`extract_data.py` builds `data.js` from the CSV files). |
+| `A.研究量測/` | Blank templates of the instruments: pre-/post-test form structures (`.docx`) and the task score / observation record sheets (`.xlsx`). |
+| `images/` | Figures used in the study (platform screenshots, diagrams, result charts). |
+| `references/` | Catalogue of the AI-education literature reviewed for the study. |
 
 ## Study design in brief
 
