@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>圖 5-4 Section 3 平台回饋比較</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="data.js"></script>
+<style>
+  body {
+    margin: 0;
+    padding: 40px;
+    font-family: "標楷體", "DFKai-SB", "PMingLiU", serif;
+    background: white;
+    width: 1200px;
+    height: 640px;
+    box-sizing: border-box;
+  }
+  .figure { display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .chart-container { width: 1100px; height: 580px; position: relative; }
+  .highlight { color: #c00; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="figure">
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
+  </div>
+  </div>
+
+<script>
+const s = window.DATA.section3;
+
+new Chart(document.getElementById('chart'), {
+  type: 'bar',
+  data: {
+    labels: s.items,
+    datasets: [
+      {
+        label: 'RR 組（A，n=10）',
+        data: s.A_paired.map(v => +v.toFixed(2)),
+        backgroundColor: 'rgba(46, 134, 222, 0.85)',
+        borderColor: 'rgba(46, 134, 222, 1)',
+        borderWidth: 2,
+        borderRadius: 4,
+      },
+      {
+        label: 'Colab 組（B，n=12）',
+        data: s.B_paired.map(v => +v.toFixed(2)),
+        backgroundColor: 'rgba(255, 159, 67, 0.85)',
+        borderColor: 'rgba(255, 159, 67, 1)',
+        borderWidth: 2,
+        borderRadius: 4,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { font: { size: 16 } } },
+      tooltip: { enabled: false },
+    },
+    scales: {
+      x: {
+        ticks: { font: { size: 14, weight: 'bold' } },
+        grid: { display: false },
+      },
+      y: {
+        beginAtZero: true,
+        max: 5,
+        ticks: { font: { size: 14 }, stepSize: 1 },
+        title: {
+          display: true,
+          text: '平均分數（Likert 1–5）',
+          font: { size: 15 },
+        },
+        grid: { color: '#eee' },
+      },
+    },
+  },
+  plugins: [{
+    id: 'valueLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      chart.data.datasets.forEach((ds, di) => {
+        const meta = chart.getDatasetMeta(di);
+        meta.data.forEach((bar, bi) => {
+          const v = ds.data[bi];
+          ctx.font = 'bold 13px sans-serif';
+          ctx.fillStyle = di === 0 ? '#1a5f9e' : '#c97800';
+          ctx.fillText(v.toFixed(2), bar.x, bar.y - 8);
+        });
+      });
+
+      // 於每題上方標示 Mann-Whitney U 的 p 值與效果量 r
+      const mw = window.DATA.stats.sec3_MW;
+      const meta0 = chart.getDatasetMeta(0);
+      const meta1 = chart.getDatasetMeta(1);
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = '#444';
+      ctx.textAlign = 'center';
+      mw.forEach((stat, idx) => {
+        const x = (meta0.data[idx].x + meta1.data[idx].x) / 2;
+        const y = Math.min(meta0.data[idx].y, meta1.data[idx].y) - 30;
+        ctx.fillText(`p=${stat.p.toFixed(3)} ${stat.sig}, r=${stat.r.toFixed(2)}`, x, y);
+      });
+      ctx.restore();
+    },
+  }],
+});
+</script>
+</body>
+</html>

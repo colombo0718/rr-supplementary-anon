@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>圖：A/B 教學實驗流程</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+<style>
+  body {
+    margin: 0;
+    padding: 30px 40px;
+    font-family: "標楷體", "DFKai-SB", "PMingLiU", serif;
+    background: white;
+    width: 1400px;
+    height: 980px;
+    box-sizing: border-box;
+  }
+  .diagram {
+    width: 1320px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+  .mermaid svg {
+    max-width: 1320px !important;
+    height: auto !important;
+  }
+  .mermaid text {
+    font-family: "標楷體", "DFKai-SB", serif !important;
+    font-size: 14px !important;
+  }
+</style>
+</head>
+<body>
+<div class="diagram">
+  <div class="mermaid">
+flowchart TB
+    Start([開始])
+
+    subgraph Pretest[Day 1 開始：前測]
+        PT[8 題概念測驗<br/>5 概念題 + 3 圖表判讀題]
+    end
+
+    Start --> PT
+
+    PT --> Split{依班級分組}
+
+    subgraph A[RR 組（A）]
+        direction TB
+        A_D1[Day 1 教學<br/>V0~V2 共用理論影片<br/>+ A0~A2 RR 操作影片<br/>→ T1 MAB / T2 Maze1D]
+        A_D2[Day 2 教學<br/>V3~V5 共用理論影片<br/>+ A3~A5 RR 操作影片<br/>→ T3 Maze2D / T4 Heli / T5 Fighter]
+        A_D1 --> A_D2
+    end
+
+    subgraph B[Colab 組（B）]
+        direction TB
+        B_D1[Day 1 教學<br/>V0~V2 共用理論影片<br/>+ B0~B2 Colab 操作影片<br/>→ T1 MAB / T2 Maze1D]
+        B_D2[Day 2 教學<br/>V3~V5 共用理論影片<br/>+ B3~B5 Colab 操作影片<br/>→ T3 Maze2D / T4 Heli / T5 Fighter]
+        B_D1 --> B_D2
+    end
+
+    Split -->|RR 介面| A
+    Split -->|Gymnasium + Colab| B
+
+    A --> Post
+    B --> Post
+
+    subgraph Post[Day 2 結束：兩組後測（內容相同）]
+        POST[8 題概念後測<br/>+ 平台回饋量表<br/>+ NASA-TLX + SUS<br/>+ 開放題]
+    end
+
+    Post --> Analysis[資料分析<br/>配對 t-test + gain score + 完成時間 t-test + 質性歸納]
+
+    Analysis --> End([研究結論])
+
+    classDef pre fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef B fill:#fff8e1,stroke:#f57c00,stroke-width:2px
+    classDef post fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef ana fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+
+    class PT pre
+    class A_D1,A_D2 A
+    class B_D1,B_D2 B
+    class POST post
+    class Analysis ana
+  </div>
+</div>
+
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'default',
+  fontFamily: '"標楷體", "DFKai-SB", serif',
+  flowchart: {
+    htmlLabels: true,
+    nodeSpacing: 30,
+    rankSpacing: 30,
+    padding: 8,
+    useMaxWidth: false,
+  },
+});
+</script>
+</body>
+</html>
